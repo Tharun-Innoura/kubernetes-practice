@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: may27-k8spractice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: may-k8spractice
+  template:
+    metadata:
+      labels:
+        app: may-k8spractice
+    spec:
+      containers:
+        - name: k8s-container
+          image: tharuninnoura/may27k8spractice:latest
+          ports:
+            - containerPort: 9090
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: may27-k8s-service
+spec:
+  selector:
+    app: may-k8spractice
+  ports:
+    - protocol: TCP
+      port: 9090
+      targetPort: 9090
+      nodePort: 30000
+  type: NodePort  # Use NodePort or ClusterIP if LoadBalancer is not supported
